@@ -9,6 +9,8 @@ Performs a series of steps to prepare for a new day of AoC. It will:
 * Downloads the `input` file for the given day
    * This requires a file called `.cookie` that contains your AoC cookie
 
+You can run the script over and over and it will *always* copy `tempalte.py` into `dayN.py`, where N is the day. To prevent this from happening, simply create a empty file called `.aoc_lock` in the `dayN` directory.
+
 ## template.<span>py
 A boilerplate script that includes some common `import` statements and automatically reads/parses the `input` file. Also provides for optional arguments, which lets you pass in test input filenames
 
