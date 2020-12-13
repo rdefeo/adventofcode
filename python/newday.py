@@ -42,8 +42,8 @@ if os.path.exists(dir+"/.aoc_lock"):
     print("Aborting")
     quit()
 
-if not os.path.exists(f"{full_dir}/aoc_utils.py"):
-    os.symlink("/home/rdefeo/src/advent/python/aoc_utils.py",f"{full_dir}/aoc_utils.py")
+# if not os.path.exists(f"{full_dir}/aoc_utils.py"):
+#     os.symlink("/home/rdefeo/src/advent/python/aoc_utils.py",f"{full_dir}/aoc_utils.py")
 
 # always copy the template source and always download input
 status(f"Generating template code for Day {day}")
