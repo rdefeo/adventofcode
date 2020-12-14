@@ -27,26 +27,24 @@ input_lines = [line.strip() for line in input.split('\n')]
 #input_nums = list(map(int,input_lines))
 print(DBLUE+f"Input <{inputfile}>, num lines: {len(input_lines)}"+CLEAR)
 
-mask = ''
-mem = collections.defaultdict(str)
 
 # returns a (l) zero padded binary representation of number d
 def dec2bin(d,l=36):
     return str(bin(int(d)))[2:].zfill(l)
 
+mask = ''
+mem = dict()
+
 start_timer('part 1')
-for n,x in enumerate(input_lines):
+for x in input_lines:
     if x.startswith('mask = '):
         mask = x[len('mask = '):]
-        #print(f"mask: {mask}")
         continue
     m = re.match(r"mem\[(\d+)\] = (\d+)",x)
     if m:
         addr = int(m.group(1))
         val = dec2bin(m.group(2),36)
-        #print(f" val: {val}")
         result = ''.join([val[i] if b == 'X' else b for i,b in enumerate(mask)])
-        #print(f" res: {result}")
         mem[addr] = result
 
 part1(sum([int(v,2) for k,v in mem.items()]))
@@ -54,42 +52,34 @@ stop_timer('part 1')
 
 # reset mask and mem for part 2
 mask = ''
-mem = collections.defaultdict(str)
+mem = dict()
 
 start_timer('part 2')
-for n,x in enumerate(input_lines):
-    m = re.match(r"mask = ([01X]+)",x)
-    if m:
-        mask = m.group(1)
-        #print(f"mask: {mask}")
+for x in input_lines:
+    if x.startswith('mask = '):
+        mask = x[len('mask = '):]
+        continue
     m = re.match(r"mem\[(\d+)\] = (\d+)",x)
     if m:
         addr = dec2bin(m.group(1),36)
-        #print(f"addr: {addr}")
-
         bm = {'0':addr, '1':'1'*36, 'X':'F'*36}
         addr = ''.join([bm[b][i] for i,b in enumerate(mask)])
-        #print(f"addr: {addr}")
-        
-        val = dec2bin(m.group(2),36)
-        #print(f"setting addr {addr} to {val}")
-        
         floats = addr.count('F')
-        #print(f"found {floats} floaters")
+
+        val = dec2bin(m.group(2),36)
 
         # we have 'floats' floater bits. therefore we have 2^floats
         # possible addresses. generate 0..2^floats-1 and insert those
         # bits into addr at the floater bit locations
         for f in range(2**floats):
             fb = dec2bin(f,floats)
-            #print(f"  trying {fb}")
-            na = addr[:] # create copy
+            newaddr = addr[:] # create copy
             fi = 0
-            for i,b in enumerate(na):
+            for i,b in enumerate(newaddr):
                 if b == 'F':
-                    na = na[:i]+fb[fi]+na[i+1:]
+                    newaddr = newaddr[:i] + fb[fi] + newaddr[i+1:]
                     fi += 1
-            mem[int(na,2)] = val
+            mem[int(newaddr,2)] = val
 
 part2(sum([int(v,2) for k,v in mem.items()]))
 stop_timer('part 2')
