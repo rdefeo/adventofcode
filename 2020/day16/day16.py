@@ -26,7 +26,6 @@ input = open(inputfile,'r').read().rstrip()
 input_lines = [line.strip() for line in input.split('\n')]
 print(DBLUE+f"Input <{inputfile}>, num lines: {len(input_lines)}"+CLEAR)
 
-ranges = collections.defaultdict(list)
 
 # just checks that there's at least one field thats valid for 'f'
 def get_field(f):
@@ -43,29 +42,25 @@ def get_all_field_names(f):
             names.add(name)
     return names
 
-mine = []
-nearby = []
-section = 1
+# parse the input into each section
+(sect1,sect2,sect3) = input.split('\n\n')
 
-# ugly parsing - i modified the input file to separate sections
-for x in input_lines:
-    if x[0] == '#':
-        section += 1
-        continue
-    if section == 1:
-        m = re.findall(r"(.*): (\d+)-(\d+) or (\d+)-(\d+)",x)[0]
-        ranges[m[0]] = list(map(int,m[1:]))
-    if section == 2:
-        mine = list(map(int,x.split(',')))
-    if section == 3:
-        nearby.append(list(map(int,x.split(','))))
+ranges = collections.defaultdict(list)
+for x in sect1.split('\n'):
+    m = re.findall(r"(.*): (\d+)-(\d+) or (\d+)-(\d+)",x)[0]
+    ranges[m[0]] = list(map(int,m[1:]))
+#print(ranges)
 
-# check inputs
-# print(ranges)
-# print(mine)
-# print(nearby)
+mine = list(map(int,sect2.split('\n')[1].split(',')))
+#print(mine)
 
+nearby = list(list(map(lambda l:list(map(int,l.split(','))),sect3.split('\n')[1:])))
+#print(nearby)
+
+# Part 1
 part1(sum([i for n in nearby for i in n if not get_field(i)]))
+
+# Part 2
 
 # for every ticket (v), if valid, get all possible field names
 # (n) for each field position (i) and store into (fields)
@@ -114,6 +109,3 @@ for i,j in enumerate(mine):
             p *= j
             break
 part2(p)
-
-
-
