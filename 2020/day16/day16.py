@@ -90,7 +90,7 @@ while fields:
     poplist = []
     for i,f in fields.items():
         if len(f) == 1:
-            part2(f"position {i} is {f}")
+            #print(f"position {i} is {f}")
             final[min(f)] = i
             poplist.append((i,f))
     for i,p in poplist:
@@ -101,11 +101,5 @@ while fields:
 #print(F"Mine: {mine}")
 
 # calculate product
-p = 1
-for i,j in enumerate(mine):
-    for n,f in final.items():
-        if f == i and n[0:6] == 'depart':
-            print(f"field {f} has value {j}")
-            p *= j
-            break
+p = math.prod(mine[f] for n,f in final.items() if n[0:9]=='departure')
 part2(p)
