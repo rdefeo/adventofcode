@@ -32,6 +32,7 @@ if len(sys.argv) >= 3:
 
 p1 = 0
 
+# find any (x) and (y) in the list (l) where their sum is equal to (n)
 def find_sum(l,n):
     for x in l:
         for y in l:
@@ -39,6 +40,9 @@ def find_sum(l,n):
                 return (x,y)
     return False
 
+# Maintain a sliding window of preamble length (plen) elements
+# for every element after the sliding window, check if not (find_sum)
+# within the preamble
 for i in range(len(input_nums)-plen+1):
     pre = input_nums[i:i+plen]
     x = input_nums[i+plen]
@@ -47,6 +51,8 @@ for i in range(len(input_nums)-plen+1):
         part1(p1)
         break
 
+# for the sum in part 1 (inum), find a continuous list of numbers that
+# sum to (inum). once found, sum the min and max of that continuous list
 inum = p1
 start_timer('part 2')
 for i in range(len(input_nums)):

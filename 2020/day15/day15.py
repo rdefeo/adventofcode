@@ -31,6 +31,9 @@ nums = list(map(int,input.split(',')))
 
 print(nums)
 
+# First speak all of the numbers in (nums)
+# then for the next number of (turns)
+#   determine when numbers were last spoken and compute the time difference
 def speak_numbers(nums,turns):
     spoken = dict()
     for i, n in enumerate(nums):

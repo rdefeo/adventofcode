@@ -30,6 +30,8 @@ print(DBLUE+f"Input <{inputfile}>, length: {len(input_lines)}"+CLEAR)
 # PART 1
 start_timer('part 1')
 
+# take each seat and convert each part to binary. the first 7 bits are the
+# row and the last 3 bits are the seat
 seatids = []
 for b in [l.translate(str.maketrans('FBRL','0110')) for l in input_lines]:
     seatids.append(int(b[0:7],2) * 8 + int(b[7:],2))
@@ -41,6 +43,9 @@ stop_timer('part 1')
 # PART 2
 start_timer('part 2')
 
+# we found all seats in part 1, sort them and then look for a case where
+# the next seat minus the current seat equals 2 - that means a gap, and
+# thus our solution
 sids = sorted(seatids)
 for s in range(len(sids)-1):
     if sids[s+1]-sids[s] == 2:

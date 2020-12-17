@@ -41,9 +41,12 @@ fields = {
     'pid':r'^(\d{9})$'
     }
 
+# A passport is valid if it contains at least all 7 fields in (fields)
+# for part 1, we don't care about the field values
 def valid_fields(p):
     return all([k in p for k in fields])
 
+# A passport is valid if each field matches the regex
 def valid_values(p):
     return all([re.match(v,p[k]) != None for k,v in fields.items()])
 

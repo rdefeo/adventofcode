@@ -21,6 +21,9 @@ start_timer()
 # PART 1
 start_timer('part 1')
 
+# simply count the number of times the letter (m.group(3)) occurs
+# in the password (m.group(4)) and if it's in the range of
+# [m.group(1),m.group(2)+1], then it's valid
 valid = 0
 for p in input:
     m = re.match(r"(\d+)-(\d+) ([a-z]): ([a-z]+)",p)
@@ -34,6 +37,8 @@ stop_timer('part 1')
 # PART 2
 start_timer('part 2')
 
+# Similar to the above, but instead verify if the letter (m.group(3))
+# is in one of the positions (m.group(1)) or (m.group(2))
 valid = 0
 for p in input:
     m = re.match(r"(\d+)-(\d+) ([a-z]): ([a-z]+)",p)

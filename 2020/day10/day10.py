@@ -27,12 +27,20 @@ input_lines = [line.strip() for line in input.split('\n')]
 input_nums = list(map(int,input_lines))
 print(DBLUE+f"Input <{inputfile}>, num lines: {len(input_lines)}"+CLEAR)
 
-
+# Create the full list of adapters, sorted
+# add the outlet [0] and your devide (max + 3)
 adapters = [0] + sorted(input_nums) + [max(input_nums)+3]
 print(adapters)
+
+# compute the diffs between every consecutive adapter
+# mutiply the number of 1-diffs and 3-diffs
 diffs = [adapters[i+1]-adapters[i] for i in range(len(adapters)-1)]
 part1(diffs.count(1)*diffs.count(3))
 
+
+# for every adapter, see how many we can go to from here
+# Since we're recursing, decorate our function with @lru_cache
+# to memoize the function! yay!
 @lru_cache
 def count_links(i):
     if i >= len(adapters)-1:

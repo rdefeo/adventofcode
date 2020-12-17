@@ -32,17 +32,21 @@ h = len(state)
 w = len(state[0])
 print(f"h: {h}, w: {w}")
 
+# delta (x,y) coordinates to help find the values surrounding us
 surround = [
     (-1,-1),(-1,0),(-1,1),
     (0,-1),        (0,1),
     (1,-1), (1,0), (1,1)
     ]
 
+# return the seat value, if in the grid
 def get_seat(state,r,c):
     if 0 <= r < h and 0 <= c < w:
         return state[r][c]
     return None
 
+# for a given direction (d), keep getting seats in that direction
+# until we're off grid
 def line_of_sight(state,r,c,d):
     seat = state[r][c] # current seat
     while seat:
@@ -50,6 +54,7 @@ def line_of_sight(state,r,c,d):
         seat = get_seat(state,r,c)
         yield seat
 
+# count how many Full seats are around (r,c) - depending on (part)
 def count_full(part,state,r,c):
     if part == 1:
         return sum([get_seat(state,r+y,c+x) == '#' for y,x in surround])
@@ -63,9 +68,13 @@ def count_full(part,state,r,c):
                 break
         return full
 
+# Counts how many occupied ('#') seats
 def count_seats(state):
     return sum([r.count('#') for r in state])
 
+# Apply the rules of 'life' to change the seat state from current
+# to the next state. Note that the "full seat" count changes based
+# o nthe (part) variable.
 def change_state(part,st):
     ns = st.copy()
     for r in range(h):
@@ -77,30 +86,27 @@ def change_state(part,st):
                 ns[r] = ns[r][0:c]+'L'+ns[r][c+1:]        
     return ns
 
-start_timer('part 1')
-c = 0
-while True:
-    news = change_state(1,state)
-    if news == state:
-        #print(news)
-        print(f"steps - {c}")
-        part1(f"total seats: {count_seats(news)}")
-        break
-    state = news
-    c += 1
 
+
+# A modified Conway's Game Of Life
+def run_game(part,state):
+    c = 0
+    while True:
+        news = change_state(part,state)
+        if news == state:
+            #print(news)
+            print(f"steps - {c}")
+            part1(f"total seats: {count_seats(news)}")
+            break
+        state = news
+        c += 1
+
+start_timer('part 1')
+run_game(1,state)
 stop_timer('part 1')
 
-start_timer('part 2')
+# re-initialize state for part 2
 state = input_lines
-c = 0
-while True:
-    news = change_state(2,state)
-    if news == state:
-        #print(news)
-        print(f"steps - {c}")
-        part2(f"total seats: {count_seats(news)}")
-        break
-    state = news
-    c += 1
+start_timer('part 2')
+run_game(2,state)
 stop_timer('part 2')

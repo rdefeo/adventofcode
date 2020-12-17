@@ -29,6 +29,8 @@ instr = input_lines
 
 start_timer('part 1')
 
+# awwww, hell yeah. memories of 2019! implement a simple computer
+# this time, the instructions only act on an accumulator
 def run_prog(instr,code=-1):
     acc = 0
     pc = 0
@@ -58,6 +60,9 @@ stop_timer('part 1')
 
 start_timer('part 2')
 
+# Run the same program as in part 1, many times. For each run, we will replace
+# each 'nop' with 'jmp' and vice versa. So, create a generator function to do
+# the needful. 
 def gen_new_instr(instr):
     for line in range(len(instr)):
         if instr[line].startswith('nop'):
@@ -69,6 +74,8 @@ def gen_new_instr(instr):
             new_instr[line] = new_instr[line].replace('jmp','nop')
             yield new_instr
 
+# for every possible iteration where we can replace 'nop'/'jmp', run the program
+# if we detect that the program terminated successfully, we're done
 for new_code in gen_new_instr(instr):
     result = run_prog(new_code)
     if result[0]:

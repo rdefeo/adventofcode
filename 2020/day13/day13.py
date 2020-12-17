@@ -37,15 +37,26 @@ print(bus_ids)
 
 start_timer('part 1')
 
+# for every bus, find the time to the next arrival from (timestamp)
+# store the results as an array of (time until next bus, bus id)
+# sort the array, which puts the earliest arrival first
 next_bus_wait = sorted([(b-(timestamp%b),b) for b in bus_ids])
 print(next_bus_wait)
+# result is the earliest time multiplied by its bus id
 part1(next_bus_wait[0][0]*next_bus_wait[0][1])
 
 stop_timer('part 1')
 
-
+# compute the index difference [offset] for every bus id from the first bus
 offsets = [int(b)-i for i,b in enumerate(all_ids) if b != 'x']
 
+# realize that this problem deals with the Chinese Remainder Theorem
+# Google it
+# End up on Rosetta of Code (among other sites)
+# write up these next two methods
+# debug why the results STILL don't match because you are not using
+# integer divide '//' but instead '/'
+# Bang head on desk over and over
 def chinese_remainder(n, a):
     sum = 0
     prod = functools.reduce(lambda a,b: a*b, n)
@@ -82,6 +93,8 @@ start_timer('part 2: CRT')
 part2(chinese_remainder(bus_ids,offsets))
 stop_timer('part 2: CRT')
 
+# Found this solution on reddit, still not sure why it works
+# need to study more modulus arithmetic...
 start_timer('another sol')
 t = 0
 rp = 1

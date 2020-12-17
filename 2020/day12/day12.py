@@ -32,10 +32,13 @@ SOUTH = (0,-1)
 WEST = (-1,0)
 NORTH = (0,1)
 
+# if we're turning 'L', map facing direction to new direction
+# similarly for 'R'
 turn = {
     'L':{ EAST:NORTH, NORTH:WEST, WEST:SOUTH, SOUTH:EAST },
     'R':{ EAST:SOUTH, SOUTH:WEST, WEST:NORTH, NORTH:EAST }
     }
+# multiply (x,y) if we're rotating 'L' or 'R' - for 90 deg rotations
 rotate = { 'L':(-1,1), 'R':(1,-1) }
 
 class Ship():
@@ -45,6 +48,8 @@ class Ship():
         self.y = 0
         self.wp = [10,1]
         self.part = part
+    
+    # move the ship in the direction we're facing
     def forward(self,amt):
         if self.part == 1:
             self.x += (self.facing[0]*amt)
@@ -52,6 +57,9 @@ class Ship():
         else:
             self.x += (self.wp[0]*amt)
             self.y += (self.wp[1]*amt)
+    
+    # regardless of facing direction, shift to new direction
+    # based on (part), move either ship or waypoint
     def shift(self,d,amt):
         if d == 'E':
             if self.part == 1:
@@ -73,6 +81,7 @@ class Ship():
                 self.y += amt
             else:
                 self.wp[1] += amt
+    # either turn the ship or rotate the waypoint, depending on (part)
     def turn(self,d,amt):
         a = amt // 90
         if amt % 90 != 0:
@@ -85,6 +94,7 @@ class Ship():
             else:
                 # swap x,y and multiply by rotation
                 self.wp = [n*self.wp[::-1][i] for i,n in enumerate(rotate[d])]
+    # given the move instruction, move the ship
     def move(self,d,a):
         if d == 'F':
             self.forward(int(a))

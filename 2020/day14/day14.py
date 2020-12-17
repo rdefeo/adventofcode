@@ -35,6 +35,8 @@ def dec2bin(d,l=36):
 mask = ''
 mem = dict()
 
+# every time we see a mask, set it
+# for every 'mem' instruction, apply the mask and store the result
 start_timer('part 1')
 for x in input_lines:
     if x.startswith('mask = '):
@@ -54,6 +56,10 @@ stop_timer('part 1')
 mask = ''
 mem = dict()
 
+# Basically do the same as Part 1
+# this time, for a memory address, if there are 'X' in the mask
+# create a new binary number (floats) whose bit length is the number of 'X's
+# Then for every number [0,2^floats], create a new memory address and store the value
 start_timer('part 2')
 for x in input_lines:
     if x.startswith('mask = '):
@@ -81,5 +87,6 @@ for x in input_lines:
                     fi += 1
             mem[int(newaddr,2)] = val
 
+# sum up the memory values
 part2(sum([int(v,2) for k,v in mem.items()]))
 stop_timer('part 2')
