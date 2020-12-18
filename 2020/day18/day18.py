@@ -37,54 +37,51 @@ def precedent(op1,op2,part):
         P = {'+':2,'*':1}
         return P[op1] >= P[op2]
 
-def sum_exp(part):
-    s = 0
-    for x in input_lines:
-        # Parse the Infix expression and convert to Postfix
-        value = []
-        op = []
-        for c in x:
-            if c.isspace():
-                continue
-            elif c.isdigit():
-                #print(f"pushing num {c}")
-                value.append(int(c))
-            elif c == '+' or c == '*':
-                #print(f"found op {c}")
-                while len(op) != 0 and op[-1] not in '()' and precedent(op[-1],c,part):
-                    o = op.pop()
-                    a = value.pop()
-                    b = value.pop()
-                    #print(f" . eval {a} {o} {b}")
-                    value.append(eval(f"{a} {o} {b}"))
-                op.append(c)
-            elif c == '(':
-                #print("open paren")
-                op.append(c)
-            elif c == ')':
-                #print("close paren")
-                while len(op) != 0 and op[-1] != '(':
-                    o = op.pop()
-                    a = value.pop()
-                    b = value.pop()
-                    #print(f" . eval {a} {o} {b}")
-                    value.append(eval(f"{a} {o} {b}"))
-                op.pop()
-            #print("s:", value)
-            #print("o:", op)
+# Parse the Infix expression and convert to Postfix
+def eval_exp(ex,part):
+    value = []
+    op = []
+    for c in ex:
+        if c.isspace():
+            continue
+        elif c.isdigit():
+            #print(f"pushing num {c}")
+            value.append(int(c))
+        elif c == '+' or c == '*':
+            #print(f"found op {c}")
+            while len(op) != 0 and op[-1] not in '()' and precedent(op[-1],c,part):
+                o = op.pop()
+                a = value.pop()
+                b = value.pop()
+                #print(f" . eval {a} {o} {b}")
+                value.append(eval(f"{a} {o} {b}"))
+            op.append(c)
+        elif c == '(':
+            #print("open paren")
+            op.append(c)
+        elif c == ')':
+            #print("close paren")
+            while len(op) != 0 and op[-1] != '(':
+                o = op.pop()
+                a = value.pop()
+                b = value.pop()
+                #print(f" . eval {a} {o} {b}")
+                value.append(eval(f"{a} {o} {b}"))
+            op.pop()
+        #print("s:", value)
+        #print("o:", op)
 
-        # Evaluate the Postfix expression represented by the two stacks: value and op
-        while len(op) != 0:
-            o = op.pop()
-            a = value.pop()
-            b = value.pop()
-            value.append(eval(f"{a} {o} {b}"))
-        assert len(op) == 0
-        assert len(value) == 1
-        #print(x," = ",value[0])
-        s += value[0]
-    return s
+    # Evaluate the Postfix expression represented by the two stacks: value and op
+    while len(op) != 0:
+        o = op.pop()
+        a = value.pop()
+        b = value.pop()
+        value.append(eval(f"{a} {o} {b}"))
+    assert len(op) == 0
+    assert len(value) == 1
+    #print(x," = ",value[0])
+    return value[0]
         
-part1(sum_exp(1))
+part1(sum(eval_exp(ex,1) for ex in input_lines))
 
-part2(sum_exp(2))
+part2(sum(eval_exp(ex,2) for ex in input_lines))
