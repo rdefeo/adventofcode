@@ -1,5 +1,5 @@
 # AoC Utilities
-Some utilities to make Advent of Code development a bit easier.
+Some Python utilities to make Advent of Code development a bit easier.
 
 ## newday.<span>py
 Performs a series of steps to prepare for a new day of AoC. It will:
