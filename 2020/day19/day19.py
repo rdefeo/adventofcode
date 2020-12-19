@@ -60,7 +60,7 @@ zero_regex = re.compile('^'+solve_zero()+'$')
 part1(sum(1 for msg in messages if zero_regex.match(msg)))
 
 # Part 2: Rule rewrite
-
+#
 # We're told to change:
 #   R8  from '42' ==> '42 | 42 8'
 #   R11 from '42 31' ==> '42 31 | 42 11 31'
@@ -70,18 +70,11 @@ part1(sum(1 for msg in messages if zero_regex.match(msg)))
 # another R8, which can be one '42', or..., etc. Therefore, let's
 # create multiple alternative rule definitions for R8:
 #   42 | 42 42 | 42 42 42 | 42 42 42 42 | 42 42 42 42 42 |...
-# And R11 becomes:
+# And similarly, R11 becomes:
 #   42 31 | 42 42 31 31 | 42 42 42 31 31 31 | 42 42 42 42 31 31 31 31 |...
 
-# RULES['8'] = ['42','|','42','8']
-# RULES['11'] = ['42','31','|','42','11','31']
-RULES['8'] = ['42']
-for i in range(2,10): # expanding it to 10 seemed like enough
-    RULES['8'] += ['|'] + ['42']*i
-
-RULES['11'] = ['42', '31']
-for i in range(2,10):
-    RULES['11'] += ['|'] + ['42']*i + ['31']*i
+RULES['8'] = ' | '.join('42 '*i for i in range(1,10)).split()
+RULES['11'] = ' | '.join('42 '*i + '31 '*i for i in range(1,10)).split()
 
 zero_regex = re.compile('^'+solve_zero()+'$')
 part2(sum(1 for msg in messages if zero_regex.match(msg)))
