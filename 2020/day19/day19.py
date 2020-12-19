@@ -31,11 +31,11 @@ rules = sections[0].split('\n')
 messages = sections[1].split('\n')
 
 RULES = collections.defaultdict(list)
+# rule: 34: 23 13 | 55
 for x in rules:
     r,rdef = x.split(': ')
-    if rdef[0] == '"':
-        rdef = rdef[1]
-    RULES[r] = rdef
+    RULES[r] = rdef.replace('"','').split()
+# RULE['34'] = ['23','13','|','55']
 #print(RULES)
 
 # For each rule, convert them to a regex. Since rules reference other
@@ -44,11 +44,10 @@ for x in rules:
 def solve_zero():
     parsed_rules = {'|':'|'} # pipe is a rule which resolves to itself!
     while '0' not in parsed_rules:
-        for num,rule in RULES.items():
-            if rule in 'ab':
-                parsed_rules[num] = rule
+        for num,sub_rules in RULES.items():
+            if len(sub_rules) == 1 and sub_rules[0] in ['a','b']:
+                parsed_rules[num] = sub_rules[0]
             else:
-                sub_rules = rule.split(' ')
                 # check if all of our sub_rules have been parsed
                 if all(s in parsed_rules for s in sub_rules):
                     # now we can build our regex
@@ -57,13 +56,16 @@ def solve_zero():
     return parsed_rules['0']
 
 # Part 1
-part1(sum(1 for msg in messages if re.match('^'+solve_zero()+'$',msg)))
+zero_regex = re.compile('^'+solve_zero()+'$')
+part1(sum(1 for msg in messages if zero_regex.match(msg)))
 
 # Part 2: Rule rewrite
-#R['8'] = '42 | 42 8'
-#R['11'] = '42 31 | 42 11 31'
 
-# Since the rule rewrite has the ability to loop, let's pre-exapand
+# We're told to change:
+#   R8  from '42' ==> '42 | 42 8'
+#   R11 from '42 31' ==> '42 31 | 42 11 31'
+#
+# Since the rule rewrite has the ability to loop, let's pre-expand
 # the loops. R8 can be one '42', or it can be '42' followed by
 # another R8, which can be one '42', or..., etc. Therefore, let's
 # create multiple alternative rule definitions for R8:
@@ -71,12 +73,15 @@ part1(sum(1 for msg in messages if re.match('^'+solve_zero()+'$',msg)))
 # And R11 becomes:
 #   42 31 | 42 42 31 31 | 42 42 42 31 31 31 | 42 42 42 42 31 31 31 31 |...
 
-RULES['8'] = '42'
+# RULES['8'] = ['42','|','42','8']
+# RULES['11'] = ['42','31','|','42','11','31']
+RULES['8'] = ['42']
 for i in range(2,10): # expanding it to 10 seemed like enough
-    RULES['8'] += ' |' + ' 42'*i
+    RULES['8'] += ['|'] + ['42']*i
 
-RULES['11'] = '42 31'
+RULES['11'] = ['42', '31']
 for i in range(2,10):
-    RULES['11'] += ' |' + ' 42'*i + ' 31'*i
+    RULES['11'] += ['|'] + ['42']*i + ['31']*i
 
-part2(sum(1 for msg in messages if re.match('^'+solve_zero()+'$',msg)))
+zero_regex = re.compile('^'+solve_zero()+'$')
+part2(sum(1 for msg in messages if zero_regex.match(msg)))
