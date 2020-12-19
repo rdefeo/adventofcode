@@ -37,7 +37,7 @@ def precedent(op1,op2,part):
         P = {'+':2,'*':1}
         return P[op1] >= P[op2]
 
-# Parse the Infix expression and convert to Postfix
+# Parse the Infix expression and convert to Postfix, then evaluate the Infix
 def eval_exp(ex,part):
     value = []
     op = []
@@ -79,7 +79,7 @@ def eval_exp(ex,part):
         value.append(eval(f"{a} {o} {b}"))
     assert len(op) == 0
     assert len(value) == 1
-    #print(x," = ",value[0])
+    print("  ",value[0]," = ",ex)
     return value[0]
         
 part1(sum(eval_exp(ex,1) for ex in input_lines))
