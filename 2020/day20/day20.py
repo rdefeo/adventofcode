@@ -159,7 +159,7 @@ def create_tile_grid(grid,x,y,seen):
     return None
 
 # Part 1
-grid = [[None for i in range(dim)] for j in range(dim)]
+grid = [[None for _ in range(dim)] for _ in range(dim)]
 g = create_tile_grid(grid,0,0,set())
 
 # multiply the Tile ids at the corners
@@ -168,6 +168,7 @@ part1(g[0][0][0].id*g[dim-1][0][0].id*g[dim-1][dim-1][0].id*g[0][dim-1][0].id)
 
 tsize = len(tiles[0].rows)
 
+# Part 2
 def merge_tiles(grid):
     """combine the tiles, after removing the borders on each"""
     merge = []
@@ -209,11 +210,11 @@ for m in mirrors:
 for s in all_seas:
     monsters = []
     sea = s[:]
-    for y in range((tsize-2)*dim-3):
-        for x in range(0,(tsize-2)*dim-20):
+    for y in range((tsize-2)*dim-3):        # monster is 3 rows tall
+        for x in range(0,(tsize-2)*dim-20): # and 20 cols wide
             found = True
             for mx,my in mc:
-                if sea[x+mx][y+my] != '#':
+                if sea[y+my][x+mx] != '#':
                     found = False
                     break
             if found:
