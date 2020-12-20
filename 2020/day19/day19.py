@@ -73,8 +73,10 @@ part1(sum(1 for msg in messages if zero_regex.match(msg)))
 # And similarly, R11 becomes:
 #   42 31 | 42 42 31 31 | 42 42 42 31 31 31 | 42 42 42 42 31 31 31 31 |...
 
-RULES['8'] = ' | '.join('42 '*i for i in range(1,10)).split()
-RULES['11'] = ' | '.join('42 '*i + '31 '*i for i in range(1,10)).split()
+RULES['8'] = ' | '.join('42 '*i for i in range(1,8)).split()
+RULES['11'] = ' | '.join('42 '*i + '31 '*i for i in range(1,8)).split()
 
+start_timer()
 zero_regex = re.compile('^'+solve_zero()+'$')
 part2(sum(1 for msg in messages if zero_regex.match(msg)))
+stop_timer()
