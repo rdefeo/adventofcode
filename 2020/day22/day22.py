@@ -66,12 +66,9 @@ def play_game(pl1,pl2):
         
         # do we need a sub-game?
         if card1 <= len(pl1) and card2 <= len(pl2):
-            spl1 = pl1[:card1]
-            spl2 = pl2[:card2]
-            winner, _ = play_game(spl1,spl2)
+            winner, _ = play_game(pl1[:card1],pl2[:card2])
         else:
-            # winner is 1 or 2, convert False,True to the right value
-            winner = (card2 > card1) + 1
+            winner = 1 if card1 > card2 else 2
         if winner == 1:
             pl1.append(card1)
             pl1.append(card2)
