@@ -24,19 +24,4 @@ input = open(inputfile,'r').read().rstrip()
 input_lines = [line.strip() for line in input.split('\n')]
 print(DBLUE+f"Input <{inputfile}>, num lines: {len(input_lines)}"+CLEAR)
 
-p1 = 0
-p2 = 0
-
-for x in input_lines:
-    # m = re.match(r"(\d+)",x)
-    pass
-
-part1()
-
-
-for x in input_lines:
-    # m = re.match(r"(\d+)",x)
-    pass
-
-part2()
 
