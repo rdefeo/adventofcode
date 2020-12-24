@@ -2,14 +2,7 @@
 
 ### Advent of Code - {} - Day {}
 
-import sys
-import requests
-import re
-import math
-import itertools
-import functools
-import os
-import collections
+import sys, requests, re, math, itertools, functools, os, collections
 from functools import lru_cache
 
 sys.path.append('../../python/')
