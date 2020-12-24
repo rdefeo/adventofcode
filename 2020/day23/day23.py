@@ -102,6 +102,7 @@ for move in range(10000000):
         dest -= 1
         if dest < min_cup:
             dest = max_cup
+    
     left = all_cups[dest]
     right = left.next
 
