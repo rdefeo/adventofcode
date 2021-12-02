@@ -13,8 +13,8 @@ inputfile = 'input' if len(sys.argv) < 2 else sys.argv[1]
 if not os.path.exists(inputfile):
     print(RED+f"Input file {inputfile} not found!"+CLEAR)
     quit()
-input = open(inputfile,'r').read().rstrip()
-input_lines = [line.strip() for line in input.split('\n')]
+finput = open(inputfile,'r').read().rstrip()
+input_lines = [line.strip() for line in finput.split('\n')]
 print(DBLUE+f"Input <{inputfile}>, num lines: {len(input_lines)}"+CLEAR)
-
+input_nums = list(map(int,input_lines))
 
