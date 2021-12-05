@@ -17,29 +17,24 @@ finput = open(inputfile,'r').read().rstrip()
 input_lines = [line.strip() for line in finput.split('\n')]
 print(DBLUE+f"Input <{inputfile}>, num lines: {len(input_lines)}"+CLEAR)
 
-def draw_lines(p2 = False):
-    vents = collections.defaultdict(int)
+# returns -1, 0, 1
+def sign(x):
+    return (x>0)-(x<0)
+
+# draw lines for both parts
+def draw_lines():
+    vents1 = collections.defaultdict(int)
+    vents2 = collections.defaultdict(int)
     for line in input_lines:
-        x1,y1,x2,y2 = list(map(int,re.findall(r'(\d+)',line)))
-        if x1 == x2: # vertical line
-            for p in range(abs(y2-y1)+1):
-                vents[(x1,min(y1,y2)+p)] += 1
-            continue
-        if y1 == y2: # horizontal line
-            for p in range(abs(x2-x1)+1):
-                vents[(min(x1,x2)+p,y1)] += 1
-            continue
-        if p2:
-            # diagonal top-left to bottom-right ("back slash")
-            if (x1 < x2 and y1 < y2) or (x1 > x2 and y1 > y2):
-                for p in range(abs(x2-x1)+1):
-                    vents[(min(x1,x2)+p,min(y1,y2)+p)] += 1
-            # diagonal bottom-left to top-right ("slash")
-            if (x1 < x2 and y1 > y2) or (x1 > x2 and y1 < y2):
-                for p in range(abs(x2-x1)+1):
-                    vents[(min(x1,x2)+p,max(y1,y2)-p)] += 1
-    return vents
+        x1,y1,x2,y2 = map(int,re.findall(r'\d+',line))
+        sx, sy = sign(x2-x1), sign(y2-y1)          # get slope increment
+        dist = max(abs(x2-x1),abs(y2-y1))          # total distance
+        for p in range(dist+1):
+            vents2[(x1+(sx*p),y1+(sy*p))] += 1     # part2 draws all lines
+            if sx == 0 or sy == 0:                 # part1 only draws horizontal or vertical
+                vents1[(x1+(sx*p),y1+(sy*p))] += 1
+    return vents1, vents2
 
-part1(sum([v>=2 for v in draw_lines().values()]))
-
-part2(sum([v>=2 for v in draw_lines(True).values()]))
+v1, v2 = draw_lines()
+part1(sum([v>=2 for v in v1.values()]))
+part2(sum([v>=2 for v in v2.values()]))
