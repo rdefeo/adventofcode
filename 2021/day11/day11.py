@@ -27,34 +27,24 @@ for y,line in enumerate(input_lines):
 DX = [1,1,0,-1,-1,-1,0,1]
 DY = [0,1,1,1,0,-1,-1,-1]
 
-def step(g,s):
-    g = {k:v+1 for k,v in g.items()} # gain energy
-    flashers = [k for k,v in g.items() if v > 9] # find flashers
+total_flashes = 0
+for s in itertools.count(1):
+    grid = {k:v+1 for k,v in grid.items()} # gain energy
+    flashers = [k for k,v in grid.items() if v > 9] # find flashers
 
     while flashers:
         for x,y in flashers:
             for i in range(8):
                 nx, ny = x+DX[i], y+DY[i]
-                if 0 <= nx < X and 0 <= ny < Y and g[(nx,ny)] != 0:
+                if 0 <= nx < X and 0 <= ny < Y and grid[(nx,ny)] != 0:
                     # only increment non-zero octopi, they've already flashed!
-                    g[(nx,ny)] += 1
-            g[(x,y)] = 0 # set flashed octopi to zero
+                    grid[(nx,ny)] += 1
+            grid[(x,y)] = 0 # set flashed octopi to zero
         # we flashed all the octopus that reached max energy, now check if we made more
-        flashers = [k for k,v in g.items() if v > 9]
-    if all(v==0 for v in g.values()):
-        part2(s+1)
-        exit()
-    return g, sum(v == 0 for v in g.values())
-
-# Part 1
-g = grid
-fc = 0
-for s in range(100):
-    g,f = step(g,s)
-    fc += f
-part1(fc)
-
-# Part 2
-g = grid
-for s in range(10000):
-    g,_ = step(g,s)
+        flashers = [k for k,v in grid.items() if v > 9]
+    total_flashes += sum(v == 0 for v in grid.values())
+    if s == 100:
+        part1(total_flashes)
+    if all(v==0 for v in grid.values()):
+        part2(s)
+        break
