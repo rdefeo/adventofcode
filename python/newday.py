@@ -38,6 +38,7 @@ if not os.path.exists(full_dir):
     os.makedirs(full_dir)
 
 if os.path.exists(dir+"/.aoc_lock"):
+    # we _shouldn't_ get here, because the aoc_newday alias also checks for the .aoc_lock file
     print(PURPLE+f"*** Day {day} was completed and has been locked! ***"+CLEAR)
     print("Aborting")
     quit()
