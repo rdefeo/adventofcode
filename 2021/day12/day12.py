@@ -24,21 +24,21 @@ for line in input_lines:
     graph[r].add(l)
 
 def find_paths(s,e,p2):
-    paths = []
-    queue = [(s,[s],{s},'')] # current node, current path, seen lowecase, node seen twice
+    paths = 0
+    queue = [(s,{s},'')] # current node, seen lowecase, node seen twice
     while queue:
-        node, path, seen, twice = queue.pop(0)
+        node, seen, twice = queue.pop(0)
         for n in graph[node]:
             if n.isupper():
-                queue.append( (n, path+[n], seen, twice) )
+                queue.append( (n, seen, twice) )
             elif n.islower() and n != 'start':
-                if n == e: # reached end, save path
-                    paths.append(path+[n])
+                if n == e: # reached end, increment path count
+                    paths += 1
                 elif n not in seen:
-                    queue.append( (n, path+[n], seen | {n}, twice) )
+                    queue.append( (n, seen | {n}, twice) )
                 elif p2 and twice == '':
-                    queue.append( (n, path+[n], seen | {n}, n) )
+                    queue.append( (n, seen | {n}, n) )
     return paths
 
-part1(len(find_paths('start','end',False)))
-part2(len(find_paths('start','end',True)))
+part1(find_paths('start','end',False))
+part2(find_paths('start','end',True))
