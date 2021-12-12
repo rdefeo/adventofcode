@@ -23,6 +23,8 @@ for line in input_lines:
     graph[l].add(r)
     graph[r].add(l)
 
+# Original solution used to solve Day 12
+# BFS traversal of the graph (slow)
 def find_paths(s,e,p2):
     paths = 0
     queue = [(s,{s},'')] # current node, seen lowecase, node seen twice
@@ -40,5 +42,28 @@ def find_paths(s,e,p2):
                     queue.append( (n, seen | {n}, n) )
     return paths
 
+start_timer()
 part1(find_paths('start','end',False))
 part2(find_paths('start','end',True))
+stop_timer()
+
+# DFS traversal of the graph (fast)
+def dfs(data, part_1):
+    def traverse(a, seen, twice):
+        if a == 'end': return 1
+        paths = 0
+        for b in data[a]:
+            if b.islower():
+                if b not in seen:
+                    paths += traverse(b, seen | {b}, twice)
+                elif not twice and b not in {'start', 'end'}:
+                    paths += traverse(b, seen | {b}, True)
+            else:
+                paths += traverse(b, seen, twice)
+        return paths
+    return traverse('start', {'start'}, part_1)
+
+start_timer()
+part1(dfs(graph, True))
+part2(dfs(graph, False))
+stop_timer()
