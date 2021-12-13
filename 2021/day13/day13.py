@@ -19,33 +19,22 @@ print(DBLUE+f"Input <{inputfile}>, num lines: {len(input_lines)}"+CLEAR)
 
 dots, folds = finput.split('\n\n') # two lists in input
 
-paper = set()
-for x,y in [list(map(int,line.split(','))) for line in dots.split()]:
-    paper.add((x,y))
-X = max(list(map(lambda p: p[0],paper)))
-Y = max(list(map(lambda p: p[1],paper)))
+paper = set(tuple(map(int,line.split(','))) for line in dots.split())
 
 for i,f in enumerate(folds.split('\n')):
     dir,fold = f.split()[2].split('=')
     fold = int(fold)
 
     if dir == 'y': # fold up
-        for px,py in [(x,y) for (x,y) in paper if y > fold]:
-            paper.add((px,fold-(py-fold)))
-            paper.remove((px,py))
-        Y = fold
-        
+        paper = set((x,y) if y < fold else (x,fold-(y-fold)) for x,y in paper)
     if dir == 'x': # fold left
-        for px,py in [(x,y) for (x,y) in paper if x > fold]:
-            paper.add((fold-(px-fold),py))
-            paper.remove((px,py))
-        X = fold
+        paper = set((x,y) if x < fold else (fold-(x-fold),y) for x,y in paper)
 
     if i == 0: # Part 1 - num dots after 1 fold
         part1(len(paper))
 
 # Part 2
-for y in range(Y):
-    for x in range(X):
+for y in range(max(list(map(lambda p: p[1]+1,paper)))):
+    for x in range(max(list(map(lambda p: p[0]+1,paper)))):
         print('#',end='') if (x,y) in paper else print(' ',end='')
     print('')
