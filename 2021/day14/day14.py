@@ -41,15 +41,17 @@ elems = Counter(res)
 part1(elems.most_common()[0][1]-elems.most_common()[-1][1])
 
 
-# Part 2 - algo from above won't work....
+# Part 2
+# algo from above won't work....
+# every pair creates two new pairs, we don't need to create a full string
 
-pcount = collections.defaultdict(int)
+pcount = Counter()
 # count the pairs in the input
-for i in range(len(polymer)-1):
-    pcount[polymer[i]+polymer[i+1]] += 1
+for p in [polymer[i:i+2] for i in range(len(polymer)-1)]:
+    pcount[p] += 1
 
 for _ in range(40):
-    npcount = collections.defaultdict(int)
+    npcount = Counter()
     # for each pair, create the new left and right pair and count them, repeat
     for p,c in pcount.items():
         m = pairs[p]
