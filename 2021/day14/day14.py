@@ -19,14 +19,11 @@ input_lines = [line.strip() for line in finput.split('\n')]
 print(DBLUE+f"Input <{inputfile}>, num lines: {len(input_lines)}"+CLEAR)
 
 polymer, maps = finput.split('\n\n')
-pairs = dict()
-for m in maps.split('\n'):
-    a,b = m.split(' -> ')
-    pairs[a] = b
+pairs = {a:b for a,b in [m.split(' -> ') for m in maps.split('\n')]}
 
 # Part 1
 
-# for each pair, create a new polymer with the inserted element
+# for each pair, insert the element between each pair
 def insert(polymer):
     pout = ''
     for p in [polymer[x:x+2] for x in range(len(polymer)-1)]:
