@@ -17,13 +17,19 @@ finput = open(inputfile,'r').read().rstrip()
 input_lines = [line.strip() for line in finput.split('\n')]
 print(DBLUE+f"Input <{inputfile}>, num lines: {len(input_lines)}"+CLEAR)
 
+# original code
 m = []
 for cal in finput.split('\n\n'):
-    print(cal)
+    # print(cal)
     s = 0
     for c in cal.split('\n'):
         s += int(c)
     m.append(s)
 part1(max(m))
+
+# one-liner
+# m = [sum(int(c) for c in cal.split('\n')) for cal in finput.split('\n\n')]
+# part1(max(m))
+
 
 part2(sum(sorted(m,reverse=True)[:3]))
