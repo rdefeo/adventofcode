@@ -31,5 +31,4 @@ part1(max(m))
 # m = [sum(int(c) for c in cal.split('\n')) for cal in finput.split('\n\n')]
 # part1(max(m))
 
-
 part2(sum(sorted(m,reverse=True)[:3]))
