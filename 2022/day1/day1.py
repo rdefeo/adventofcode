@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-### Advent of Code - {} - Day {}
+### Advent of Code - 2022 - Day 1
 
 import sys, requests, re, math, itertools, functools, os, collections
 from functools import lru_cache
@@ -16,5 +16,14 @@ if not os.path.exists(inputfile):
 finput = open(inputfile,'r').read().rstrip()
 input_lines = [line.strip() for line in finput.split('\n')]
 print(DBLUE+f"Input <{inputfile}>, num lines: {len(input_lines)}"+CLEAR)
-#input_nums = list(map(int,input_lines))
 
+m = []
+for cal in finput.split('\n\n'):
+    print(cal)
+    s = 0
+    for c in cal.split('\n'):
+        s += int(c)
+    m.append(s)
+part1(max(m))
+
+part2(sum(sorted(m,reverse=True)[:3]))

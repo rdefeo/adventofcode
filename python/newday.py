@@ -61,9 +61,13 @@ os.chmod(f"{full_dir}/{dir}.py",0o777)
 status(f"Downloading input for Day {day}")
 url = f"https://adventofcode.com/{year}/day/{day}/input"
 cookie = {'session': open('/home/rdefeo/src/advent/.cookie','r').read()}
+headers = {
+    'User-Agent': 'github.com/rdefeo/adventofcode/blob/main/python/newday.py by rdefeo@gmail.com'
+}
 #status(url)
 #status(cookie)
-r = requests.post(url,cookies=cookie)
+r = requests.post(url,cookies=cookie,headers=headers)
+print(r.request.headers)
 status(f"HTTP Status: {r.status_code}")
 if r.status_code == 200:
     #print(str(r.content))
