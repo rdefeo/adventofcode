@@ -17,6 +17,32 @@ finput = open(inputfile,'r').read().rstrip()
 input_lines = [line.strip() for line in finput.split('\n')]
 print(DBLUE+f"Input <{inputfile}>, num lines: {len(input_lines)}"+CLEAR)
 
+'''
+The lead knot can be in several locations, after moving, from the next knot.
+
+The simple case is when it's at most 1 length away:
+
+ . . . . .
+ . h h h .
+ . h t h .
+ . h h h .
+ . . . . .
+
+If the leading knot moves to any of those positions, we're good! Check the rest.
+
+The other possibilities are:
+
+ . h H h .
+ h x . x h
+ H . t . H
+ h x . x h
+ . h H h .  
+
+Where the 'H' positions simply require that we move 't' one step in that direction.
+For the 'h' positions, we need to move diagonally into one of the 'x' positions.
+
+'''
+
 def update_rope(R, dir):
     # Move the Head knot - always
     if dir == 'R':
