@@ -100,3 +100,28 @@ for start in [s for s in grid if grid[s] == 1]:
         shortest_len, shortest_path = l, p
 print_grid(grid,shortest_path)
 part2(shortest_len)
+
+# After reading other solutions, we don't need a full Dijkstra's Algorithm,
+# a BFS search should work just fine - and it's much faster!
+print('--- BFS ----------------')
+def bfs(part):
+    q = collections.deque()
+    # prime the starting point(s), based on the part
+    for y in range(HEIGHT):
+        for x in range(WIDTH):
+            if (part == 1 and (x,y) == S) or (part == 2 and grid[(x,y)] == 1):
+                q.append(((x,y), 0))
+    seen = set()
+    while q:
+        (x,y), dist = q.popleft()
+        if (x,y) in seen:
+            continue
+        seen.add((x,y))
+        if (x,y) == E:
+            return dist
+        for nx,ny in [(x+dx,y+dy) for dx,dy in [(1,0),(0,1),(-1,0),(0,-1)]]:
+            if 0 <= nx < WIDTH and 0 <= ny < HEIGHT and grid[(nx,ny)] <= grid[(x,y)] + 1:
+                q.append(((nx,ny),dist+1))
+
+part1(bfs(1))
+part2(bfs(2))
