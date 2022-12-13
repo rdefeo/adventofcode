@@ -49,7 +49,7 @@ def print_grid(g,p=None):
         print()
 
 # Computes all edges in the graph
-#   start_node : { (weight1,neighbor1), (weight2, neighbor2), ... }
+#   start_node : { (weight1, neighbor1), (weight2, neighbor2), ... }
 # where 'weight' is always '1', since we always take 1 step. If there was a cost
 # taken for each step, say the height difference, we'd change that value
 def compute_graph(g):
@@ -87,7 +87,7 @@ the_graph = compute_graph(grid)
 
 # Part 1
 print(S,E)
-l, p = dijkstra(the_graph.copy(),S,E)
+l, p = dijkstra(the_graph,S,E)
 print_grid(grid,p)
 part1(l)
 
@@ -95,7 +95,7 @@ part1(l)
 shortest_len = WIDTH * HEIGHT
 shortest_path = []
 for start in [s for s in grid if grid[s] == 1]:
-    l, p = dijkstra(the_graph.copy(),start,E)
+    l, p = dijkstra(the_graph,start,E)
     if l < shortest_len:
         shortest_len, shortest_path = l, p
 print_grid(grid,shortest_path)
