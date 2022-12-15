@@ -21,6 +21,7 @@ CAVE = collections.defaultdict(lambda : '.')
 left = top = 9999999
 right = bottom = -9999999
 SO = [500,0]
+CAVE[tuple(SO)] = '+'  # sand origin
 
 # build the rock segments
 def create_rock(x1,y1,x2,y2):
