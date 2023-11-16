@@ -33,7 +33,7 @@ aoc_newday() {
     then
         yr="$2"
     fi
-    if [ ! -f "/home/$USER/src/advent/$yrday${1}/.aoc_lock" ]; then
+    if [ ! -f "/home/$USER/src/advent/$yr/day${1}/.aoc_lock" ]; then
        /home/$USER/src/advent/python/newday.py $1 $yr
        cd "/home/$USER/src/advent/$yr/day${1}"
     else
