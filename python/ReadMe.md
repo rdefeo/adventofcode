@@ -28,13 +28,18 @@ alias aoc_lock="touch .aoc_lock"
 alias aoc_unlock="rm -f .aoc_lock"
 aoc_newday() {
     if [ -z $1 ]; then echo "Usage: ${FUNCNAME[0]} <day of month> [event year]"; return; fi
-    yr='2020'
+    yr=$(date +'%Y') # current year
     if [ ! -z $2 ]
     then
         yr="$2"
     fi
-    /home/rdefeo/src/advent/python/newday.py $1 $yr
-    cd "/home/rdefeo/src/advent/$yr/day${1}"
+    if [ ! -f "/home/$USER/src/advent/$yrday${1}/.aoc_lock" ]; then
+       /home/$USER/src/advent/python/newday.py $1 $yr
+       cd "/home/$USER/src/advent/$yr/day${1}"
+    else
+       echo "Day ${1}, Year $yr is LOCKED, aborting..."
+    fi
+}
 ```
 The command `aoc` will run the current day's script, which then automatically looks for an input file called `input` - since it's the same for both Part 1 and Part 2. You can optionally pass in any other input file, such as `aoc test1` to run your script against `test1` input.
 
