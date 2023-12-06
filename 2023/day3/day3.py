@@ -39,7 +39,7 @@ def near_symbol(x1, x2, y):
             return smatic[y+1][x], (x,y+1)
     return None, (0,0)
 
-# Pad our input schematic to make edge cases simpler
+# Pad our input schematic with a '.' border to make edge cases simpler
 smatic = ['.' * (len(input_lines[0]) + 2)]
 smatic += ['.'+line+'.' for line in input_lines]
 smatic += ['.' * (len(input_lines[0]) + 2)]

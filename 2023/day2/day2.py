@@ -18,6 +18,7 @@ input_lines = [line.strip() for line in finput.split('\n')]
 print(DBLUE+f"Input <{inputfile}>, num lines: {len(input_lines)}"+CLEAR)
 #input_nums = list(map(int,input_lines))
 
+# For each game, store the max number of each color seen
 games = dict()
 for game in input_lines:
     id, rounds = game.split(':')
@@ -29,10 +30,13 @@ for game in input_lines:
             amt, color = cube.strip().split(' ')
             games[id][color] = max(games[id].get(color,0), int(amt))
 
+# Given
 red = 12
 green = 13
 blue = 14
 
+# All possible games are ones that have less than or equal counts per color
+# The fewest of each color is the max num we calculated before!
 possible = 0
 power = 0
 for id, colors in games.items():
