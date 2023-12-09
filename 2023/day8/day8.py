@@ -53,5 +53,6 @@ for i, curr in enumerate(anodes):
             break
         curr = nxt
 # Given that we keep cycling through our navigation input, compute the
-# Least Common Multiple of all steps to get our answer
+# Least Common Multiple of all steps to get our answer, as that is where
+# they will converge
 part2(math.lcm(*steps))
