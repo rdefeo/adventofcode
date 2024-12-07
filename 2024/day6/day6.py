@@ -29,13 +29,6 @@ for r, row in enumerate(input_lines):
         grid[(c,r)] = ch
 print(f"{guard=}")
 
-turn_right = {
-    (0,-1) : (1,0),
-    (1,0) : (0,1),
-    (0,1) : (-1,0),
-    (-1,0) : (0,-1)
-}
-
 # In grid, starting at guard position, find our path
 # If we exit the grid, return True and all (positions,directions) visited
 # If we get stuck in a loop, return False
@@ -50,7 +43,7 @@ def find_path(grid,guard,p2=False):
             if p2 and (guard,dir) in turns: # if we've seen this turn before, loop!
                 return False, None
             turns.add((guard,dir))
-            dir = turn_right[dir]
+            dir = (-dir[1],dir[0]) # rotate right
             continue
         if grid[np] == '!': # out of bounds
             break
